@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:products_app/providers/login_form_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'screens/screens.dart';
 
 void main(){
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(
+      MultiProvider(providers: [
+        ChangeNotifierProvider(create: (_) => LoginFormProvider()),
+  ], child: const MyApp()));
 }
+
+
 
 class MyApp extends StatelessWidget{
   //CONSTRUCTOR

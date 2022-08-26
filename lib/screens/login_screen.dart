@@ -1,26 +1,34 @@
 
 import 'package:flutter/material.dart';
+import 'package:products_app/providers/login_form_provider.dart';
 import 'package:products_app/ui/input_decoration.dart';
 import 'package:products_app/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget{
+
+
+
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    final loginProvider = Provider.of<LoginFormProvider>(context, listen: false);
+
     return Scaffold(
       body: LoginBackgroundWidget(
-        child: SingleChildScrollView(child: _LoginForm(context:context)),
+        child: SingleChildScrollView(child: _LoginForm(context:context, loginProvider: loginProvider)),
       ),
     );
   }
 
-  Column _LoginForm({required BuildContext context}) {
+  Column _LoginForm({required BuildContext context, required LoginFormProvider loginProvider}) {
     return Column(
         children: [
           SizedBox(height: 200),
           CardContainerWidget(
-              child: _LoginFields(context: context)
+              child: _LoginFields(context: context, loginProvider: loginProvider),
           ),
           SizedBox(height: 20),
           Text('Create an account', style: TextStyle(color: Colors.indigo,fontSize: 18, fontWeight: FontWeight.w600)),
@@ -28,7 +36,8 @@ class LoginScreen extends StatelessWidget{
       );
   }
 
-  Column _LoginFields({required BuildContext context}) {
+  Column _LoginFields({required BuildContext context, required LoginFormProvider loginProvider}) {
+    
     return Column(
 
       children: [
@@ -38,8 +47,8 @@ class LoginScreen extends StatelessWidget{
 
 
         Container(
-          //TODO: MATENER REFERENCIA AL KEY
           child: Form(
+            key: loginProvider.formKey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               children:[
@@ -78,8 +87,10 @@ class LoginScreen extends StatelessWidget{
                     ),
 
                     onPressed: (){
+                    if(loginProvider.isValidForm() == true){
                       Navigator.pushNamed(context, '/home');
                     }
+                  }
                 )
               ]
             ),
