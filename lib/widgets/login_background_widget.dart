@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class LoginBackgroundWidget extends StatelessWidget{
-  const LoginBackgroundWidget({Key? key}) : super(key: key);
+
+  final Widget child;
+
+  const LoginBackgroundWidget({Key? key, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,11 +14,37 @@ class LoginBackgroundWidget extends StatelessWidget{
       child: Stack(
         children: [
           _PurpleBox(),
+
+          _TopIcon(),
+
+          this.child,
+
+
+
         ],
       ),
 
 
 
+    );
+  }
+}
+
+class _TopIcon extends StatelessWidget {
+  const _TopIcon({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Container(
+        width: double.infinity,
+        height: 200,
+        //margin: const EdgeInsets.only(top: 20),
+        //color: Colors.white,
+        child: Icon(Icons.person, size: 100, color: Colors.white) ,
+      ),
     );
   }
 }
