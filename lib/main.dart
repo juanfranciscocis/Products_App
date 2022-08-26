@@ -25,6 +25,13 @@ class MyApp extends StatelessWidget{
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.grey[300],
+        appBarTheme: AppBarTheme(
+          color: Colors.deepPurple,
+          elevation: 10,
+        ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Colors.deepPurple,
+        ),
       ),
       title: 'Material App',
       initialRoute: '/home',
