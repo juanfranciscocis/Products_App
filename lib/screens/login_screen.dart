@@ -61,6 +61,9 @@ class LoginScreen extends StatelessWidget{
                     RegExp regExp  = new RegExp(pattern);
                     return regExp.hasMatch(value!) ? null : 'Invalid email';
                   },
+                  onChanged: (value){
+                    loginProvider.setEmail(value);
+                  },
                 ),
                 SizedBox(height: 30,),
                 TextFormField(
@@ -74,6 +77,9 @@ class LoginScreen extends StatelessWidget{
                     }
                     return 'Invalid password (min 8 characters)';
                   },
+                  onChanged: (value){
+                    loginProvider.setPassword(value);
+                  },
                 ),
                 SizedBox(height: 30,),
                 MaterialButton(
@@ -81,14 +87,24 @@ class LoginScreen extends StatelessWidget{
                   color: Colors.deepPurple,
                     elevation: 10,
                     child: Container(
-                      child: Center(child: Text('Login', style: TextStyle(color: Colors.white),)),
-                      height: 50,
-                      width: 80,
+                      child: Center(child: Text(loginProvider.isLoading? 'Wait': 'Login', style: TextStyle(color: Colors.grey),)),
+                      height: 60,
+                      width: 60,
                     ),
 
-                    onPressed: (){
-                    if(loginProvider.isValidForm() == true){
-                      Navigator.pushNamed(context, '/home');
+                    onPressed: loginProvider.isLoading ? null : ()async{
+                      FocusScope.of(context).unfocus();
+
+                      if(loginProvider.isValidForm() == true){
+
+                        loginProvider.isLoading = true;
+
+                        await Future.delayed(Duration(seconds: 2));
+
+                        loginProvider.isLoading = false;
+
+                        Navigator.pushReplacementNamed(context, '/home');
+
                     }
                   }
                 )
