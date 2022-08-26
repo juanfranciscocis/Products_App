@@ -40,12 +40,18 @@ class LoginScreen extends StatelessWidget{
         Container(
           //TODO: MATENER REFERENCIA AL KEY
           child: Form(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               children:[
                 TextFormField(
                   autocorrect: false,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecorations.decoration(icon: Icons.alternate_email, labelText: 'Email', hintText: 'Enter your email'),
+                  validator: (value){
+                    String pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                    RegExp regExp  = new RegExp(pattern);
+                    return regExp.hasMatch(value!) ? null : 'Invalid email';
+                  },
                 ),
                 SizedBox(height: 30,),
                 TextFormField(
@@ -53,6 +59,12 @@ class LoginScreen extends StatelessWidget{
                   autocorrect: false,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecorations.decoration(icon: Icons.lock,  labelText: 'Password', hintText: 'Enter your password'),
+                  validator: (value){
+                    if(value != null && value.length >= 8){
+                      return null;
+                    }
+                    return 'Invalid password (min 8 characters)';
+                  },
                 ),
                 SizedBox(height: 30,),
                 MaterialButton(
