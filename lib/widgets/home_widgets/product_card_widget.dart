@@ -124,8 +124,14 @@ class _ProductDetails extends StatelessWidget {
       padding:EdgeInsets.only(right:50),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.deepPurple,
+          //color: Colors.deepPurple,
           borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), topRight: Radius.circular(30)),
+          gradient: LinearGradient(
+            colors: [
+              Colors.deepPurple[400]!,
+              Colors.deepPurple,
+            ],
+          ),
         ),
           width: double.infinity,
           height: 70,
