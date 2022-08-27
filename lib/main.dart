@@ -3,13 +3,24 @@ import 'package:products_app/providers/login_form_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'screens/screens.dart';
+import 'services/services.dart';
 
 void main(){
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(
-      MultiProvider(providers: [
-        ChangeNotifierProvider(create: (_) => LoginFormProvider()),
-  ], child: const MyApp()));
+  runApp(AppState());
+}
+
+class AppState extends StatelessWidget{
+  const AppState({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(providers: [
+      ChangeNotifierProvider(create: (_) => LoginFormProvider()),
+      ChangeNotifierProvider(create: (_) => ProductsService()),
+    ], child: const MyApp()
+    );
+  }
 }
 
 
@@ -34,7 +45,7 @@ class MyApp extends StatelessWidget{
         ),
       ),
       title: 'Material App',
-      initialRoute: '/home',
+      initialRoute: '/login',
       routes: {
         '/login': (context) => LoginScreen(),
         '/home': (context) => HomeScreen(),
