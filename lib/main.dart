@@ -7,7 +7,7 @@ import 'services/services.dart';
 
 void main(){
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(AppState());
+  runApp(const AppState());
 }
 
 class AppState extends StatelessWidget{
@@ -17,7 +17,7 @@ class AppState extends StatelessWidget{
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => LoginFormProvider()),
-      ChangeNotifierProvider(create: (_) => ProductsService()),
+      ChangeNotifierProvider(create: (_) => ProductsService(),),
     ], child: const MyApp()
     );
   }
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget{
         ),
       ),
       title: 'Material App',
-      initialRoute: '/login',
+      initialRoute: '/home',
       routes: {
         '/login': (context) => LoginScreen(),
         '/home': (context) => HomeScreen(),

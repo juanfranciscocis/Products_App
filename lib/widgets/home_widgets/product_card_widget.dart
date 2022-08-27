@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/products.dart';
+import '../../services/product_service.dart';
 
 class ProductCardWidget extends StatelessWidget{
-  const ProductCardWidget({Key? key}) : super(key: key);
+
+  final List<Product> products;
+  final int index;
+
+  const ProductCardWidget({Key? key,required this.products, required this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Container(
@@ -16,20 +25,20 @@ class ProductCardWidget extends StatelessWidget{
           alignment: Alignment.bottomLeft,
           children:[
 
-            _BackgroundCardImage(),
+            _BackgroundCardImage(index: index, products: products),
 
-            _ProductDetails(),
+            _ProductDetails(index: index, products: products,),
 
             Positioned(
               top: 0,
               right: 0,
-                child: _PriceTag()
+                child: _PriceTag(index: index, products: products,)
             ),
 
 
             Positioned(
               top: 0,
-                child: _NotAvailable()
+                child: _NotAvailable(index: index, products: products)
             )
 
 
@@ -57,12 +66,22 @@ class ProductCardWidget extends StatelessWidget{
 }
 
 class _NotAvailable extends StatelessWidget {
+
+  final int index;
+  final List<Product> products;
+
+
   const _NotAvailable({
-    Key? key,
+    Key? key, required this.index, required this.products,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    if(products[index].available == false){
+      return Container();
+    }
+
     return Container(
       child: FittedBox(
         fit: BoxFit.contain,
@@ -85,19 +104,25 @@ class _NotAvailable extends StatelessWidget {
 }
 
 class _PriceTag extends StatelessWidget {
+
+  final int index;
+  final List<Product> products;
+
+
   const _PriceTag({
-    Key? key,
+    Key? key, required this.index, required this.products,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       alignment: Alignment.center,
       child: FittedBox(
         fit: BoxFit.contain,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Text('\$1000', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white))
+            child: Text( '\$${products[index].price}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white))
         ),
       ),
       width: 100,
@@ -114,8 +139,12 @@ class _PriceTag extends StatelessWidget {
 }
 
 class _ProductDetails extends StatelessWidget {
+
+  final List<Product> products;
+  final int index;
+
   const _ProductDetails({
-    Key? key,
+    Key? key, required this.products, required this.index,
   }) : super(key: key);
 
   @override
@@ -143,7 +172,7 @@ class _ProductDetails extends StatelessWidget {
             Row(
               children: [
                 SizedBox(width: 30),
-                Text('PRODUCT NAME', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),maxLines: 1,overflow: TextOverflow.ellipsis,),
+                Text(this.products[index].name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),maxLines: 1,overflow: TextOverflow.ellipsis,),
               ],
 
             ),
@@ -151,7 +180,7 @@ class _ProductDetails extends StatelessWidget {
             Row(
               children: [
                 SizedBox(width: 30),
-                Text('PRODUCT ID', style: TextStyle(fontSize: 10, fontWeight: FontWeight.normal, color: Colors.white),maxLines: 1,overflow: TextOverflow.ellipsis,),
+                Text(this.products[index].id.toString(), style: TextStyle(fontSize: 10, fontWeight: FontWeight.normal, color: Colors.white),maxLines: 1,overflow: TextOverflow.ellipsis,),
               ],
             ),
 
@@ -163,12 +192,19 @@ class _ProductDetails extends StatelessWidget {
 }
 
 class _BackgroundCardImage extends StatelessWidget {
+
+  final int index;
+  final List<Product> products;
+
   const _BackgroundCardImage({
-    Key? key,
+    Key? key, required this.index, required this.products,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    final String? url = products[index].picture;
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(30),
       child: Container(
@@ -177,7 +213,7 @@ class _BackgroundCardImage extends StatelessWidget {
         //color: Colors.red,
         child: FadeInImage(
           placeholder: AssetImage('assets/jar-loading.gif'),
-          image: NetworkImage('https://via.placeholder.com/400x300/f6f6f6'),
+          image: NetworkImage(url!),
           fit: BoxFit.cover,
         ),
       ),

@@ -11,6 +11,7 @@ class Product {
   String name;
   String? picture;
   double price;
+  String? id;
 
   //CONSTRUCTOR
   Product({
