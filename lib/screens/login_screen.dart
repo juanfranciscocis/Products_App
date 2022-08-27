@@ -17,6 +17,7 @@ class LoginScreen extends StatelessWidget{
     final loginProvider = Provider.of<LoginFormProvider>(context, listen: false);
 
     return Scaffold(
+      backgroundColor: Colors.grey[300],
       body: LoginBackgroundWidget(
         child: SingleChildScrollView(child: _LoginForm(context:context, loginProvider: loginProvider)),
       ),
