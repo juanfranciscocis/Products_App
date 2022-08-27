@@ -211,12 +211,17 @@ class _BackgroundCardImage extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         //color: Colors.red,
-        child: FadeInImage(
+        child:
+            url == null ? Image(
+              image: AssetImage('assets/no-image.png'),
+              fit: BoxFit.cover,
+            ) :
+        FadeInImage(
           placeholder: AssetImage('assets/jar-loading.gif'),
-          image: NetworkImage(url!),
+          image: NetworkImage(url),
           fit: BoxFit.cover,
         ),
-      ),
+      )
     );
   }
 }
