@@ -1,9 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:products_app/providers/product_form_provider.dart';
+import 'package:provider/provider.dart';
 
+import '../services/services.dart';
 import '../widgets/widgets.dart';
 
 class ProductDescriptionScreen extends StatelessWidget{
   const ProductDescriptionScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    final productsService = Provider.of<ProductsService>(context);
+
+    return ChangeNotifierProvider(
+      create: (_) => ProductFormProvider(productsService.selectedProduct!),
+    child: _ProductBody(productsService: productsService,));
+    //return _ProductBody(productsService: productsService);
+  }
+}
+
+class _ProductBody extends StatelessWidget {
+  const _ProductBody({
+    Key? key,
+    required this.productsService,
+  }) : super(key: key);
+
+  final ProductsService productsService;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +38,7 @@ class ProductDescriptionScreen extends StatelessWidget{
               padding: const EdgeInsets.all(10),
               child: Stack(
                 children: [
-                  ProductImageWidget(),
+                  ProductImageWidget(url: productsService.selectedProduct!.picture,),
                   Positioned(
                     top: 0,
                     left: 0,

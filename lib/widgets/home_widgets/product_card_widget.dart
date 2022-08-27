@@ -215,8 +215,7 @@ class _BackgroundCardImage extends StatelessWidget {
             url == null ? Image(
               image: AssetImage('assets/no-image.png'),
               fit: BoxFit.cover,
-            ) :
-        FadeInImage(
+            ) : FadeInImage(
           placeholder: AssetImage('assets/jar-loading.gif'),
           image: NetworkImage(url),
           fit: BoxFit.cover,
