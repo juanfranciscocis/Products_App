@@ -30,6 +30,7 @@ class _ProductBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productFormProvider = Provider.of<ProductFormProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -77,7 +78,13 @@ class _ProductBody extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.save_alt, color: Colors.white, size: 30),
-        onPressed: () {
+        onPressed: () async {
+          if(!productFormProvider.isValidForm()){
+            return;
+          }else{
+            await productsService.saveOrCreateProduct(productFormProvider.product);
+          }
+
 
         },
       ),

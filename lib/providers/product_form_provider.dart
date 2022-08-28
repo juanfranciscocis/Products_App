@@ -4,7 +4,7 @@ import 'package:products_app/models/models.dart';
 
 class ProductFormProvider extends ChangeNotifier {
 
-  GlobalKey<FormState> formState = GlobalKey<FormState>();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   Product product;
 
@@ -19,7 +19,12 @@ class ProductFormProvider extends ChangeNotifier {
 
 
   bool isValidForm() {
-    return formState.currentState?.validate() ?? false;
+
+    print(product.name);
+    print(product.price);
+    print(product.available);
+
+    return formKey.currentState?.validate() ?? false;
   }
 
 }

@@ -11,7 +11,6 @@ class LoadingScreen extends StatelessWidget{
         title: Text('Products'),
       ),
 
-
       body: Center(
         child: CircularProgressIndicator(
           color: Colors.white,

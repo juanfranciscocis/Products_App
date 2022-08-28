@@ -25,6 +25,8 @@ class ProductInfoWidget extends StatelessWidget {
         width: double.infinity,
 
         child: Form(
+          key: productFormProvider.formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             children: [
               SizedBox(height: 20),

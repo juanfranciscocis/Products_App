@@ -78,7 +78,7 @@ class _NotAvailable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    if(products[index].available == false){
+    if(products[index].available == true){
       return Container();
     }
 
