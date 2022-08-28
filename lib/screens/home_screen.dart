@@ -1,6 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../models/products.dart';
 import '../services/services.dart';
 import '../widgets/widgets.dart';
 import 'loading_screen.dart';
@@ -30,7 +32,7 @@ class HomeScreen extends StatelessWidget{
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-                productsService.selectedProduct = productsService.products[index].copy();
+                productsService.selectedProduct = productsService.products[index].copy(); //copy the product
                 Navigator.pushNamed(context, '/description');
               },
                 child: ProductCardWidget(products: productsService.products, index: index),
@@ -41,6 +43,9 @@ class HomeScreen extends StatelessWidget{
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
+            
+            productsService.selectedProduct = Product(price: 0.0, available: true, name: '');
+            Navigator.pushNamed(context, '/description');
 
           },
         ),

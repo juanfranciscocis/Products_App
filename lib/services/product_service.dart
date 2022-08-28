@@ -49,6 +49,7 @@ class ProductsService extends ChangeNotifier {
 
     if(product.id == null){
       //necesario crear
+      await this.createProduct(product);
     }else{
       //necesario actualizar
       await this.updateProduct(product);
@@ -74,6 +75,21 @@ class ProductsService extends ChangeNotifier {
 
     return product.id!;
   }
+
+  Future<String> createProduct(Product product) async{
+
+    final url = Uri.https(_baseUrl, "products.json");
+    final response = await http.post(url, body: product.toJson());
+    final decodedData = jsonDecode(response.body);
+    print(decodedData);
+
+    product.id = decodedData['name'];
+    products.add(product);
+
+    return product.id!;
+  }
+
+
 
 
 
