@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:products_app/providers/product_form_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../services/services.dart';
 import '../widgets/widgets.dart';
@@ -30,6 +31,7 @@ class _ProductBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(productsService.selectedProduct!.picture);
     final productFormProvider = Provider.of<ProductFormProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(
@@ -60,8 +62,44 @@ class _ProductBody extends StatelessWidget {
                     child: Padding(
                         padding: const EdgeInsets.only(top: 80, right: 35),
                         child: IconButton(
-                            onPressed: () {
+                            onPressed: () async {
                               //TODO: LAUNCH CAMERA
+                              final imagePicker = ImagePicker();
+                              final PickedFile? pickedFile = await imagePicker.getImage(source: ImageSource.gallery);
+
+                              if(pickedFile == null){
+                                print('NO SELECTED FILE');
+                                return;
+                              }
+
+                              print('Tenemos imagen file ${pickedFile.path}');
+                              productsService.updateSelectedProductImage(pickedFile.path);
+
+                            },
+                            icon: Icon(Icons.file_copy_rounded, color: Colors.deepPurple, size: 25)
+                        )
+                    ),
+                  ),
+
+                  Positioned(
+                    top: 0,
+                    left: 160,
+                    child: Padding(
+                        padding: const EdgeInsets.only(top: 80, right: 35),
+                        child: IconButton(
+                            onPressed: () async {
+                              //TODO: LAUNCH CAMERA
+                              final imagePicker = ImagePicker();
+                              final PickedFile? pickedFile = await imagePicker.getImage(source: ImageSource.camera);
+
+                              if(pickedFile == null){
+                                print('NO SELECTED FILE');
+                                return;
+                              }
+
+                              print('Tenemos imagen ${pickedFile.path}');
+                              productsService.updateSelectedProductImage(pickedFile.path);
+
                             },
                             icon: Icon(Icons.camera_alt, color: Colors.deepPurple, size: 30)
                         )

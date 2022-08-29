@@ -211,16 +211,33 @@ class _BackgroundCardImage extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         //color: Colors.red,
-        child:
-            url == null ? Image(
-              image: AssetImage('assets/no-image.png'),
-              fit: BoxFit.cover,
-            ) : FadeInImage(
-          placeholder: AssetImage('assets/jar-loading.gif'),
-          image: NetworkImage(url),
-          fit: BoxFit.cover,
-        ),
+        child: _getImage(url),
       )
     );
   }
+
+
+  Widget _getImage(String? image){
+    if(image == null){
+      return Image(
+        image: AssetImage('assets/no-image.png'),
+        fit: BoxFit.cover,
+      );
+    }
+
+    if(image.startsWith('http')){
+      return FadeInImage(
+        placeholder: AssetImage('assets/jar-loading.gif'),
+        image: NetworkImage(image),
+        fit: BoxFit.cover,
+      );
+    }
+    return Image(
+      image: AssetImage(image),
+      fit: BoxFit.cover,
+    );
+
+  }
+
+
 }
