@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   provider: ^6.0.3 # Provider is a package for providing state management to your Flutter app.
   http: ^0.13.5 # The http package provides HTTP client APIs.
+  image_picker: ^0.8.5+3 # The image_picker package provides APIs for picking images from the device's image library.
 
 dev_dependencies:
   flutter_test:
