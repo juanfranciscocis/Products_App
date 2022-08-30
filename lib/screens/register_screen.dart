@@ -117,6 +117,7 @@ class RegisterScreen extends StatelessWidget{
                           Navigator.pushReplacementNamed(context, '/home');
                         }else{
                           print(response);
+                          NotificationService.showSnackBar(response);
                         }
 
                         registerProvider.isLoading = false;

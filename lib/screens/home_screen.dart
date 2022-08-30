@@ -26,6 +26,18 @@ class HomeScreen extends StatelessWidget{
     return Scaffold(
       appBar: AppBar(
         title: Text('Products'),
+        leading:
+          GestureDetector(
+            onTap: (){
+              Navigator.pushNamed(context, '/userInfo');
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15.0),
+              child: CircleAvatar(
+                backgroundImage: AssetImage('assets/person.png'),
+              ),
+            ),
+          ),
       ),
       body: ListView.builder(
         itemCount: productsService.products.length,

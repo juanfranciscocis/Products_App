@@ -48,13 +48,17 @@ class MyApp extends StatelessWidget{
         ),
       ),
       title: 'Material App',
-      initialRoute: '/login',
+      initialRoute: '/checkAuth',
       routes: {
         '/login': (context) => LoginScreen(),
+        '/register': (context) => RegisterScreen(),
+        '/checkAuth': (context) => CheckAuthScreen(),
         '/home': (context) => HomeScreen(),
         '/description': (context) => ProductDescriptionScreen(),
-        '/register': (context) => RegisterScreen(),
+        '/userInfo': (context) => UserInfoScreen(),
       },
+
+      scaffoldMessengerKey: NotificationService.messengerKey,
     );
   }
 

@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:products_app/providers/login_form_provider.dart';
+import 'package:products_app/services/notification_service.dart';
 import 'package:products_app/ui/input_decoration.dart';
 import 'package:products_app/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -116,6 +117,7 @@ class LoginScreen extends StatelessWidget{
                           Navigator.pushReplacementNamed(context, '/home');
                         }else{
                           print(response);
+                          NotificationService.showSnackBar(response);
                         }
 
                         loginProvider.isLoading = false;
