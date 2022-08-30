@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:products_app/providers/login_form_provider.dart';
+import 'package:products_app/providers/register_form_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'screens/screens.dart';
@@ -17,7 +18,9 @@ class AppState extends StatelessWidget{
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => LoginFormProvider()),
+      ChangeNotifierProvider(create: (_) => RegisterFormProvider()),
       ChangeNotifierProvider(create: (_) => ProductsService(),),
+      ChangeNotifierProvider(create: (_) => AuthService(),),
     ], child: const MyApp()
     );
   }
@@ -45,11 +48,12 @@ class MyApp extends StatelessWidget{
         ),
       ),
       title: 'Material App',
-      initialRoute: '/home',
+      initialRoute: '/login',
       routes: {
         '/login': (context) => LoginScreen(),
         '/home': (context) => HomeScreen(),
         '/description': (context) => ProductDescriptionScreen(),
+        '/register': (context) => RegisterScreen(),
       },
     );
   }

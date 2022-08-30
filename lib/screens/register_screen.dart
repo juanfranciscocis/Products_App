@@ -5,56 +5,59 @@ import 'package:products_app/ui/input_decoration.dart';
 import 'package:products_app/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget{
+import '../providers/register_form_provider.dart';
+import '../services/services.dart';
+
+class RegisterScreen extends StatelessWidget{
 
 
 
-  const LoginScreen({Key? key}) : super(key: key);
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    final loginProvider = Provider.of<LoginFormProvider>(context, listen: false);
+    final registerProvider = Provider.of<RegisterFormProvider>(context, listen: false);
 
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: LoginBackgroundWidget(
-        child: SingleChildScrollView(child: _LoginForm(context:context, loginProvider: loginProvider)),
+        child: SingleChildScrollView(child: _LoginForm(context:context, registerProvider: registerProvider)),
       ),
     );
   }
 
-  Column _LoginForm({required BuildContext context, required LoginFormProvider loginProvider}) {
+  Column _LoginForm({required BuildContext context, required RegisterFormProvider registerProvider}) {
     return Column(
         children: [
           SizedBox(height: 200),
           CardContainerWidget(
-              child: _LoginFields(context: context, loginProvider: loginProvider),
+              child: _LoginFields(context: context, registerProvider: registerProvider),
           ),
           SizedBox(height: 20),
           TextButton(
             onPressed: (){
-              Navigator.pushReplacementNamed(context, '/register');
+              Navigator.pushReplacementNamed(context, '/login');
             },
-            child: Text('Create an account', style: TextStyle(color: Colors.indigo,fontSize: 18, fontWeight: FontWeight.w600)),
+            child: Text('All ready have an account?', style: TextStyle(color: Colors.indigo,fontSize: 18, fontWeight: FontWeight.w600)),
           )
         ],
       );
   }
 
-  Column _LoginFields({required BuildContext context, required LoginFormProvider loginProvider}) {
+  Column _LoginFields({required BuildContext context, required RegisterFormProvider registerProvider}) {
     
     return Column(
 
       children: [
         SizedBox( height: 10,),
-        Text('Login', style: Theme.of(context).textTheme.headline4,),
+        Text('Register', style: Theme.of(context).textTheme.headline4,),
         SizedBox( height: 30,),
 
 
         Container(
           child: Form(
-            key: loginProvider.formKey,
+            key: registerProvider.formKey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               children:[
@@ -68,7 +71,7 @@ class LoginScreen extends StatelessWidget{
                     return regExp.hasMatch(value!) ? null : 'Invalid email';
                   },
                   onChanged: (value){
-                    loginProvider.setEmail(value);
+                    registerProvider.setEmail(value);
                   },
                 ),
                 SizedBox(height: 30,),
@@ -84,7 +87,7 @@ class LoginScreen extends StatelessWidget{
                     return 'Invalid password (min 8 characters)';
                   },
                   onChanged: (value){
-                    loginProvider.setPassword(value);
+                    registerProvider.setPassword(value);
                   },
                 ),
                 SizedBox(height: 30,),
@@ -93,23 +96,31 @@ class LoginScreen extends StatelessWidget{
                   color: Colors.deepPurple,
                     elevation: 10,
                     child: Container(
-                      child: Center(child: Text(loginProvider.isLoading? 'Wait': 'Login', style: TextStyle(color: Colors.grey),)),
+                      child: Center(child: Text(registerProvider.isLoading? 'Wait': 'Register', style: TextStyle(color: Colors.grey),)),
                       height: 60,
                       width: 60,
                     ),
 
-                    onPressed: loginProvider.isLoading ? null : ()async{
+                    onPressed: registerProvider.isLoading ? null : ()async{
                       FocusScope.of(context).unfocus();
 
-                      if(loginProvider.isValidForm() == true){
+                      if(registerProvider.isValidForm() == true){
 
-                        loginProvider.isLoading = true;
+                        registerProvider.isLoading = true;
 
-                        await Future.delayed(Duration(seconds: 2));
+                        //await Future.delayed(Duration(seconds: 2)); //for testing purposes
+                        final authService = Provider.of<AuthService>(context, listen: false);
+                        final String? response = await authService.createUser(registerProvider.email, registerProvider.password);
 
-                        loginProvider.isLoading = false;
+                        if(response == null){
+                          registerProvider.isLoading = false;
+                          Navigator.pushReplacementNamed(context, '/home');
+                        }else{
+                          print(response);
+                        }
 
-                        Navigator.pushReplacementNamed(context, '/home');
+                        registerProvider.isLoading = false;
+
 
                     }
                   }

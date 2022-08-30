@@ -172,7 +172,7 @@ class _ProductDetails extends StatelessWidget {
             Row(
               children: [
                 SizedBox(width: 30),
-                Text(this.products[index].name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),maxLines: 1,overflow: TextOverflow.ellipsis,),
+                Flexible(child: Text(this.products[index].name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),maxLines: 1,overflow: TextOverflow.ellipsis,)),
               ],
 
             ),
