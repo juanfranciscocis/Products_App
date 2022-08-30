@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
@@ -9,6 +10,8 @@ class AuthService extends ChangeNotifier{
 
   final String _baseUrl = 'identitytoolkit.googleapis.com';
   final String _firebaseToken = 'AIzaSyBdQnTxVLhM-z69_YQ6_qoZ2Odx2sHnr6I';
+
+  final FlutterSecureStorage storage = FlutterSecureStorage();
 
   //SI REGRESO ALGO, ES QUE EL USUARIO EXISTE SI NO, ES QUE NO EXISTE Y LO CREO
   Future<String?> createUser(String email, String password) async{
@@ -28,6 +31,7 @@ class AuthService extends ChangeNotifier{
 
 
     if(decodedResponse.containsKey('idToken')) {
+      await storage.write(key: 'idToken', value: decodedResponse['idToken']);
       return null;
     } else {
       return decodedResponse['error']['message'];
@@ -54,6 +58,7 @@ class AuthService extends ChangeNotifier{
 
 
     if(decodedResponse.containsKey('idToken')) {
+      await storage.write(key: 'idToken', value: decodedResponse['idToken']);
       return null;
     } else {
       return decodedResponse['error']['message'];
@@ -61,6 +66,14 @@ class AuthService extends ChangeNotifier{
 
 
   }
+
+  Future<void> logout() async{
+    await storage.delete(key: 'idToken');
+    notifyListeners();
+  }
+
+
+
 
 
 
