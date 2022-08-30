@@ -36,6 +36,32 @@ class AuthService extends ChangeNotifier{
 
   }
 
+  //SI REGRESO ALGO, ES QUE EL USUARIO EXISTE SI NO, ES QUE NO EXISTE Y LO CREO
+  Future<String?> loginUser(String email, String password) async{
+
+    final Map<String,dynamic> authData = {
+      "email": email,
+      "password": password,
+    };
+
+    final url = Uri.https(_baseUrl, 'v1/accounts:signInWithPassword', {
+      'key': _firebaseToken,
+    });
+
+    final response = await http.post(url, body: json.encode(authData));
+
+    final Map<String,dynamic> decodedResponse = json.decode(response.body);
+
+
+    if(decodedResponse.containsKey('idToken')) {
+      return null;
+    } else {
+      return decodedResponse['error']['message'];
+    }
+
+
+  }
+
 
 
 }

@@ -5,6 +5,8 @@ import 'package:products_app/ui/input_decoration.dart';
 import 'package:products_app/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
+import '../services/auth_service.dart';
+
 class LoginScreen extends StatelessWidget{
 
 
@@ -105,13 +107,21 @@ class LoginScreen extends StatelessWidget{
 
                         loginProvider.isLoading = true;
 
-                        await Future.delayed(Duration(seconds: 2));
+                        //await Future.delayed(Duration(seconds: 2)); //for testing purposes
+                        final authService = Provider.of<AuthService>(context, listen: false);
+                        final String? response = await authService.loginUser(loginProvider.email, loginProvider.password);
+
+                        if(response == null){
+                          loginProvider.isLoading = false;
+                          Navigator.pushReplacementNamed(context, '/home');
+                        }else{
+                          print(response);
+                        }
 
                         loginProvider.isLoading = false;
 
-                        Navigator.pushReplacementNamed(context, '/home');
 
-                    }
+                      }
                   }
                 )
               ]
